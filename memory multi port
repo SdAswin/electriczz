@@ -1,0 +1,30 @@
+module multi_port_rom #(
+    parameter ADDR_WIDTH = 8, // Address width
+    parameter DATA_WIDTH = 16, // Data width
+    parameter ROM_SIZE = 256   // Size of the ROM (2^ADDR_WIDTH)
+)(
+    input wire clk,                           // Clock signal
+    input wire [ADDR_WIDTH-1:0] addr_a,      // Address input for port A
+    input wire [ADDR_WIDTH-1:0] addr_b,      // Address input for port B
+    output reg [DATA_WIDTH-1:0] data_out_a,  // Data output for port A
+    output reg [DATA_WIDTH-1:0] data_out_b   // Data output for port B
+);
+
+// ROM initialization (example data)
+reg [DATA_WIDTH-1:0] rom [0:ROM_SIZE-1] = {
+    16'h0001, 16'h0002, 16'h0003, 16'h0004, // Sample data initialization
+    // Add more initial values as needed
+    // Up to ROM_SIZE entries
+};
+
+// Asynchronous read operation for port A
+always @(*) begin
+    data_out_a = rom[addr_a]; // Read data from ROM at addr_a
+end
+
+// Asynchronous read operation for port B
+always @(*) begin
+    data_out_b = rom[addr_b]; // Read data from ROM at addr_b
+end
+
+endmodule
